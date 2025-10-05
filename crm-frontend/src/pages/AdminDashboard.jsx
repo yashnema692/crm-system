@@ -14,13 +14,12 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async id => {
     if (!window.confirm('Are you sure you want to delete this user?')) return;
     try {
       const token = localStorage.getItem('token');
       await API.delete(`/users/${id}`, { headers: { Authorization: `Bearer ${token}` } });
-      alert('User deleted successfully');
-      fetchUsers(); // refresh the list
+      fetchUsers();
     } catch (error) {
       alert('Error deleting user');
     }
@@ -34,12 +33,12 @@ const AdminDashboard = () => {
       <div className="row">
         {users.map(user => (
           <div key={user._id} className="col-12 col-md-6 col-lg-4 mb-3">
-            <div className="card shadow-sm p-3 d-flex justify-content-between">
-              <div>
-                <h5>{user.name}</h5>
-                <p>Email: {user.email}</p>
-                <p>Role: {user.role}</p>
-              </div>
+            <div className="card shadow-sm p-3">
+              <h5>{user.name}</h5>
+              <p>Email: {user.email}</p>
+              <p>Role: {user.role}</p>
+              <p>Created At: {new Date(user.createdAt).toLocaleString()}</p>
+              <p>Updated At: {new Date(user.updatedAt).toLocaleString()}</p>
               <button className="btn btn-danger btn-sm mt-2" onClick={() => handleDelete(user._id)}>Delete</button>
             </div>
           </div>
